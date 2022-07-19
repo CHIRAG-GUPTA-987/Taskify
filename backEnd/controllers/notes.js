@@ -16,7 +16,7 @@ module.exports.addNotes = async(req, res)=>{
     try{
         //Checking for validation errors
         const errors = validationResult(req);
-        if (!errors.isEmpty())return res.status(400).json({ errors: errors.array() });
+        if (!errors.isEmpty())return res.status(500).json({ errors: errors.array() });
 
         //Destructuring Notes from request body
         const {title, description, tag} = req.body;
@@ -31,20 +31,33 @@ module.exports.addNotes = async(req, res)=>{
         res.json(savedNote);
     }catch(error){
         console.log(error);
-        res.status(400).send('Internal server error')
+        res.status(500).send('Internal server error')
     }
 }
 
 module.exports.updateNote = async(req, res)=>{
-    const {description, tag} = req.body;
-    const {id} = req.params.id;
-    const note = await Note.findByIdAndUpdate(id, {description, tag}, (err, docs)=>{
-        if(err){
-            return res.send('Updation Error');
-        }else{
-            console.log('Update Successful');
-        }
-    })
-    const savedNote = await note.save();
-    res.send(savedNote);
+    try{
+        const {description, tag} = req.body;
+        let note = await Note.findById(req.params.id);
+        if(!note)return res.send('No note was found');
+        if(note.user.toString() !== req.user.id)return res.status(401).send('Unauthorized access');
+        note = await Note.findByIdAndUpdate(req.params.id, {$set: {description: description, tag: tag}})
+        res.send(note);
+    }catch(error){
+        console.log(error);
+        res.status(500).send('Internal server error');
+    }
+}
+
+module.exports.deleteNote = async(req, res)=>{
+    try{
+        let note = await Note.findById(req.params.id);
+        if(!note)return res.send('No note was found');
+        if(note.user.toString() !== req.user.id)return res.status(401).send('Unauthorized access');
+        note = await Note.findByIdAndDelete(req.params.id);
+        res.send('Note deletion successfull');
+    }catch(error){
+        console.log(error);
+        res.status(500).send('Internal server error');
+    }
 }

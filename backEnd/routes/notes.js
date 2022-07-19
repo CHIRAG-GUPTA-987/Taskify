@@ -4,11 +4,11 @@ const fetchUser = require('../middleware/fetchUser');
 const notesControl = require('../controllers/notes');
 const {body} = require('express-validator');
 
-//GET: Fetching all notes of a user
+//GET: Fetching all notes of a user. Login Required
 router.route('/fetchNotes')
     .get(fetchUser, notesControl.fetchNotes)
 
-//POST: Adding new notes of a user
+//POST: Adding new notes of a user. Login Required
 router.route('/addNotes')
     .post(fetchUser,
         [
@@ -17,8 +17,12 @@ router.route('/addNotes')
         ],
         notesControl.addNotes)
 
-//PUT: Updating a note
+//PUT: Updating a note. Login Required
 router.route('/updateNote/:id')
     .put(fetchUser, notesControl.updateNote)
+
+//DELETE: Deleting a note. Login Required
+router.route('/deleteNote/:id')
+    .delete(fetchUser, notesControl.deleteNote)
 
 module.exports = router;
