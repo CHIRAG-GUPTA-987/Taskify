@@ -1,21 +1,27 @@
-import './App.css';
-import React, {useState} from 'react';
+import React from 'react';
+import About from './components/about'
+import Home from './components/home'
+import Navbar from './components/navbar'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+import NoteState from './context/notes/noteState';
 
-function App() {
-  const [name, setName] = useState('Chirag');
-  const randomNameGenerate = async()=>{
-    const nameURL = 'https://randomuser.me/api';
-    const data = await fetch(nameURL);
-    const parsedData = await data.json();
-    const newName = parsedData.results[0].name;
-    setName(newName.first + " " + newName.last);
-  }
+const App = () => {
   return (
     <>
-      <h1>{name}</h1>
-      <button onClick={randomNameGenerate}>Generate another name</button>
+      <NoteState>
+        <Router>
+          <Navbar/>
+          <Routes>
+            <Route exact path="/about" element={<About/>} />
+            <Route exact path="/" element={<Home/>} />
+          </Routes>
+        </Router>
+      </NoteState>
     </>
-  );
+  )
 }
-
-export default App;
+export default App
