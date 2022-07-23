@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors');
 const app = express();
 const authRoute = require('./routes/auth');
 const notesRoute = require('./routes/notes');
@@ -7,11 +8,14 @@ const notesRoute = require('./routes/notes');
 const connectToMongo = require('./MongoDB');
 connectToMongo();
 
+//Using cors
+app.use(cors());
+
 //Converting request body to json
 app.use(express.json());         
 
 //Converting url body to json
-app.use(express.urlencoded({extended: true}));
+// app.use(express.urlencoded({extended: true}));
 
 //User routes
 app.use('/auth', authRoute);
