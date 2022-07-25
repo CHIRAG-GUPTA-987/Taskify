@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import NoteContext from "../context/notes/noteContext";
+import UserContext from "../context/users/userContext";
 import Note from "./note";
 
 const Notes = (props) => {
   const contextNotes = useContext(NoteContext);
   const { notes, fetchNotes, deleteNote, updateNote } = contextNotes;
+  const userContext = useContext(UserContext);
+  const {authToken} = userContext;
   const [editNote, setEditNote] = useState({
     title: "",
     editDescription: "",
@@ -182,7 +185,7 @@ const Notes = (props) => {
         </div>
       </div>
 
-      {notes && notes.length>0 && 
+      {authToken != null && notes && notes.length>0 && 
         <div className="container mt-3">
           <h2>Your Notes</h2>
           <div className="row">

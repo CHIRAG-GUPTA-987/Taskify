@@ -1,4 +1,5 @@
 import React, {useContext, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import NoteContext from "../context/notes/noteContext";
 
 const AddNote = (props) => {
@@ -6,9 +7,15 @@ const AddNote = (props) => {
   const {addNote} = noteContext;
   const [newNote, setNewNote] = useState({title: "", description: "", tag: "default"})
   const [flag, setFlag] = useState(false);
+  let navigateTo = useNavigate();
   const addTheNote = async e =>{
     e.preventDefault();
-    if(newNote.title && newNote.description  && flag){
+    const authToken = localStorage.getItem('token');
+    if(!authToken){
+      props.showAlert('Must be logged in to add a note', 'info');
+      navigateTo('/login');
+    }
+    else if(newNote.title && newNote.description  && flag){
         setFlag(false);
         document.querySelector('#title').value=document.querySelector('#description').value=document.querySelector('#tag').value=document.querySelector('#invalidCheck').value="";
         document.querySelector('#invalidCheck').checked=false;

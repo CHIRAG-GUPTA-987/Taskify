@@ -1,8 +1,18 @@
-import React from 'react'
-import {Link, useLocation} from 'react-router-dom';
+import React, { useContext} from 'react'
+import {Link, useLocation, useNavigate} from 'react-router-dom';
+import UserContext from '../context/users/userContext';
 
-const Navbar = () => {
+const Navbar = props => {
+    const navigateTo = useNavigate();
+    const userContext = useContext(UserContext);
+    const {authToken, setAuthToken} = userContext;
     const location = useLocation();
+    const LogOut = async () => {
+        localStorage.removeItem('token');
+        setAuthToken(null);
+        props.showAlert('Logged out successfully', 'success');
+        navigateTo('/Login');
+    }
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-light sticky-top">
@@ -20,10 +30,11 @@ const Navbar = () => {
                                 <Link className={`nav-link ${location.pathname==='/about'? "active": ""}`} to="/about">About</Link>
                             </li>
                         </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                            <button className="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                        {authToken===null && <div>
+                            <Link className="btn btn-primary mx-1" to="/Login" role="button">Login</Link>
+                            <Link className="btn btn-primary mx-1" to="/SignUp" role="button">Register</Link>
+                        </div>}
+                        {authToken!=null && <div className="btn btn-primary mx-1" onClick={LogOut} role="button">Logout</div>}
                     </div>
                 </div>
             </nav>

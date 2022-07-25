@@ -4,39 +4,41 @@ import NoteContext from "./noteContext";
 const NoteState = (props) => {
   const [notes, setNotes] = useState(null);
   const port = "http://localhost:4000";
-
+  const authToken = localStorage.getItem("token");
   //fetching all notes
   const fetchNotes = async () => {
-    const url = `${port}/notes/fetchNotes`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        // "Content-Type": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJkNTExZWM4OTM5NGJhM2IwNWRmMzZiIn0sImlhdCI6MTY1ODIyMjAyNn0.SlA7tY08jR5t_i31DVXBkALdUOlaWWQTkAPeGKPov4g",
-      },
-    });
-    const notesJSON = await response.json();
-    setNotes(notesJSON);
+    if (authToken) {
+      const url = `${port}/notes/fetchNotes`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          // "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "auth-token": authToken,
+        },
+      });
+      const notesJSON = await response.json();
+      setNotes(notesJSON);
+    }
   };
 
   //adding notes
   const addNote = async (note) => {
-    const { title, description, tag } = note;
-    const url = `${port}/notes/addNotes`;
-    // eslint-disable-next-line
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // "Content-Type": "application/x-www-form-urlencoded",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJkNTExZWM4OTM5NGJhM2IwNWRmMzZiIn0sImlhdCI6MTY1ODIyMjAyNn0.SlA7tY08jR5t_i31DVXBkALdUOlaWWQTkAPeGKPov4g"
-      },
-      body: JSON.stringify({ title, description, tag })
-    });
-    fetchNotes();
+    if (authToken) {
+      const { title, description, tag } = note;
+      const url = `${port}/notes/addNotes`;
+      // eslint-disable-next-line
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // "Content-Type": "application/x-www-form-urlencoded",
+          "auth-token": authToken,
+        },
+        body: JSON.stringify({ title, description, tag }),
+      });
+      fetchNotes();
+    }
   };
 
   //deleting notes
@@ -45,8 +47,7 @@ const NoteState = (props) => {
     await fetch(url, {
       method: "DELETE",
       headers: {
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJkNTExZWM4OTM5NGJhM2IwNWRmMzZiIn0sImlhdCI6MTY1ODIyMjAyNn0.SlA7tY08jR5t_i31DVXBkALdUOlaWWQTkAPeGKPov4g",
+        "auth-token": authToken,
       },
     });
     fetchNotes();
@@ -61,10 +62,9 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         // "Content-Type": "application/x-www-form-urlencoded",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJkNTExZWM4OTM5NGJhM2IwNWRmMzZiIn0sImlhdCI6MTY1ODIyMjAyNn0.SlA7tY08jR5t_i31DVXBkALdUOlaWWQTkAPeGKPov4g",
+        "auth-token": authToken,
       },
-      body: JSON.stringify({description, tag})
+      body: JSON.stringify({ description, tag }),
     });
     fetchNotes();
   };

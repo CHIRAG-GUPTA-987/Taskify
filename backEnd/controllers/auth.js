@@ -7,16 +7,17 @@ const jsonSecret = 'This is the first time I am making my own API to use React';
 //Creating a new user
 module.exports.createUser = async(req, res)=>{
     try{
+        let success = false;
         //Checking for validation errors
         const errors = validationResult(req);
-        if (!errors.isEmpty())return res.status(400).json({ errors: errors.array() });
+        if (!errors.isEmpty())return res.status(400).json({success, errors: errors.array() });
 
         //Refactoring body arguements
         const {userName, email, password} = req.body;
         let user = await User.findOne({email: email});
 
         //Checking if the user with given email already exists or not
-        if(user)return res.status(400).json({ error: 'A user is already registered with that email address'})
+        if(user)return res.status(400).json({success, error: 'A user is already registered with that email address'})
 
         //Hashing password to protect it from attackers
         const salt = await bcrypt.genSalt(12);
@@ -36,31 +37,34 @@ module.exports.createUser = async(req, res)=>{
             }
         }
         const jwtToken = jwt.sign(data, jsonSecret);
-        res.json({authToken: jwtToken})
+        success=true;
+        res.json({success, authToken: jwtToken})
     }catch(error){
-        res.status(400).send()
+        res.status(400).send(error)
     }
 }
 
 //Logging a user in
 module.exports.loginUser = async(req, res)=>{
     try{
+        //Success will be true if login is successful.
+        let success = false;
         //Checking for validation errors
         const errors = validationResult(req);
-        if (!errors.isEmpty())return res.status(400).json({ errors: errors.array() });
+        if (!errors.isEmpty())return res.status(400).json({success, errors: errors.array() });
 
         //Refactoring body arguements
         const {email, password} = req.body;
         let user = await User.findOne({email: email});
 
         //Checking if the user with given email already exists or not
-        if(!user)return res.status(400).send('Username or password may be incorrect');
+        if(!user)return res.status(400).send(success, 'Username or password may be incorrect');
 
         //Comparing passwords
         const passwordCompare = await bcrypt.compare(password, user.password);
 
         //Checking if the password is wrong
-        if(!passwordCompare)return res.status(400).send('Username or password may be incorrect');
+        if(!passwordCompare)return res.status(400).send(success, 'Username or password may be incorrect');
 
         //Logging in User and sending back response.
         const data = {
@@ -69,7 +73,8 @@ module.exports.loginUser = async(req, res)=>{
             }
         }
         const jwtToken = jwt.sign(data, jsonSecret);
-        res.json({authToken: jwtToken})
+        success=true;
+        res.json({success, authToken: jwtToken})
     }catch(error){
         res.status(400).send('Internal server error');
     }
