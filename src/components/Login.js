@@ -1,42 +1,57 @@
-import React, {useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/users/userContext";
 
-const Login = props => {
+const Login = (props) => {
   const userContext = useContext(UserContext);
-  const {setAuthToken} = userContext;
+  const { setAuthToken } = userContext;
   let navigateTo = useNavigate();
-  const [loginCredentials, setLoginCredentials] = useState({email: "", password: ""});
-  const handleCredChange = e => {
-      setLoginCredentials({...loginCredentials, [e.target.name]: e.target.value});
-  }
-  const handleLogin = async e => {
-    e.preventDefault();
-    const port = "http://localhost:4000";
-    const url = `${port}/auth/login`;
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        //   "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: JSON.stringify(loginCredentials)
+  const [loginCredentials, setLoginCredentials] = useState({
+    email: "",
+    password: "",
+  });
+  const handleCredChange = (e) => {
+    setLoginCredentials({
+      ...loginCredentials,
+      [e.target.name]: e.target.value,
     });
-    const loginToken = await response.json();
-    if(loginToken.success){
+  };
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      const port = "http://localhost:4000";
+      const url = `${port}/auth/login`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          //   "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify(loginCredentials),
+      });
+      const loginToken = await response.json();
+      if (loginToken.success) {
         //redirect
-        localStorage.setItem('token', loginToken.authToken); 
-        setAuthToken(localStorage.getItem('token'));
-        navigateTo('/');
-        props.showAlert('Logged In successfully', 'success')
-    }
-    else {
-        props.showAlert('Username or Password may be incorrect', 'warning');
+        localStorage.setItem("token", loginToken.authToken);
+        setAuthToken(localStorage.getItem("token"));
+        navigateTo("/");
+        props.showAlert("Logged In successfully", "success");
+      } else {
+        props.showAlert("Username or Password may be incorrect", "warning");
+      }
+    } catch (e) {
+      props.showAlert("Login Failed", "danger");
     }
   };
   return (
-    <div className="container d-flex justify-content-center align-items-center">
-      <form className="card shadow p-4 col-lg-6 col-md-8 col-sm-12" onSubmit={handleLogin}>
+    <div className="container d-flex flex-column align-items-center">
+      <form
+        className="card shadow p-4 col-lg-6 col-md-8 col-sm-12 mt-2"
+        onSubmit={handleLogin}
+      >
+        <div className="mb-1">
+          <h2>Login to use i-NoteBook</h2>
+        </div>
         <div className="mb-3">
           <label htmlFor="loginEmail" className="form-label">
             Email address
@@ -68,10 +83,7 @@ const Login = props => {
         <div className="form-text">
           We'll never share your credentials with anyone else.
         </div>
-        <button
-          type="submit"
-          className="btn btn-primary btn-block mt-2"
-        >
+        <button type="submit" className="btn btn-primary btn-block mt-2">
           LogIn
         </button>
       </form>
