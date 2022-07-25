@@ -9,7 +9,6 @@ module.exports = async(req, res, next)=>{
     try{
         const data = jwt.verify(token, jsonSecret);
         req.user = data.user;
-        console.log(req.user);
         next();
     }catch(error){
         res.status(401).send('Please authenticate to generate a token');

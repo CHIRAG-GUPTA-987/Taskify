@@ -1,21 +1,58 @@
-import './App.css';
-import React, {useState} from 'react';
+import React, { useState } from "react";
+import About from "./components/about";
+import Home from "./components/home";
+import Navbar from "./components/navbar";
+import Alert from "./components/alert";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NoteState from "./context/notes/noteState";
+import UserState from "./context/users/userState";
 
-function App() {
-  const [name, setName] = useState('Chirag');
-  const randomNameGenerate = async()=>{
-    const nameURL = 'https://randomuser.me/api';
-    const data = await fetch(nameURL);
-    const parsedData = await data.json();
-    const newName = parsedData.results[0].name;
-    setName(newName.first + " " + newName.last);
-  }
+const App = () => {
+  const [alert, setAlert] = useState(null);
+  const showAlert = (message, type) => {
+    setAlert({
+      message,
+      type,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 1700);
+  };
   return (
     <>
-      <h1>{name}</h1>
-      <button onClick={randomNameGenerate}>Generate another name</button>
+      <UserState>
+        <NoteState>
+          <Router>
+            <Navbar showAlert = {showAlert} />
+            <div className="mt-2">
+              <Alert alert={alert} showAlert={showAlert} />
+            </div>
+            <div className="my-5">
+              <Routes>
+                <Route
+                  exact
+                  path="/Login"
+                  element={<Login showAlert={showAlert} />}
+                />
+                <Route
+                  exact
+                  path="/SignUp"
+                  element={<SignUp showAlert={showAlert} />}
+                />
+                <Route exact path="/about" element={<About />} />
+                <Route
+                  exact
+                  path="/"
+                  element={<Home showAlert={showAlert} />}
+                />
+              </Routes>
+            </div>
+          </Router>
+        </NoteState>
+      </UserState>
     </>
   );
-}
-
+};
 export default App;
