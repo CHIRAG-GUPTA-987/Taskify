@@ -48,8 +48,11 @@ const SignUp = props => {
     }
   };
   return (
-    <div className="container d-flex justify-content-center align-items-center">
-      <form className="card shadow p-4 col-lg-6 col-md-8 col-sm-12" onSubmit={handleRegister}>
+    <div className="container d-flex flex-column align-items-center">
+      <form className="card shadow p-4 col-lg-6 col-md-8 col-sm-12 mt-2" onSubmit={handleRegister}>
+        <div className="mb-1">
+          <h2>Create an account to use i-NoteBook</h2>
+        </div>
         <div className="mb-3">
           <label htmlFor="signupUserName" className="form-label">
             UserName

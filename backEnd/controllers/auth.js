@@ -52,11 +52,9 @@ module.exports.loginUser = async(req, res)=>{
         //Checking for validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty())return res.status(400).json({success, errors: errors.array() });
-
         //Refactoring body arguements
         const {email, password} = req.body;
         let user = await User.findOne({email: email});
-
         //Checking if the user with given email already exists or not
         if(!user)return res.status(400).send(success, 'Username or password may be incorrect');
 
@@ -76,7 +74,7 @@ module.exports.loginUser = async(req, res)=>{
         success=true;
         res.json({success, authToken: jwtToken})
     }catch(error){
-        res.status(400).send('Internal server error');
+        res.status(400).send(error);
     }
 }
 
@@ -87,6 +85,6 @@ module.exports.getUserDetails = async (req, res)=>{
         const user = await User.findById(userId).select("-password");
         res.json(user);
     }catch(error){
-        res.status(400).send('Internal server error');
+        res.status(400).send(error);
     }
 }
