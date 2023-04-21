@@ -54,7 +54,7 @@ const Login = (props) => {
         onSubmit={handleLogin}
       >
         <div className="mb-1">
-          <h2>Login to use i-NoteBook</h2>
+          <h2>Login to use Taskify</h2>
         </div>
         <div className="mb-3">
           <label htmlFor="loginEmail" className="form-label">

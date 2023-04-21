@@ -63,7 +63,7 @@ const SignUp = (props) => {
         onSubmit={handleRegister}
       >
         <div className="mb-1">
-          <h2>Create an account to use i-NoteBook</h2>
+          <h2>Create an account to use Taskify</h2>
         </div>
         <div className="mb-3">
           <label htmlFor="signupUserName" className="form-label">
