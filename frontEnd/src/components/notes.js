@@ -7,7 +7,7 @@ const Notes = (props) => {
   const contextNotes = useContext(NoteContext);
   const { notes, fetchNotes, deleteNote, updateNote } = contextNotes;
   const userContext = useContext(UserContext);
-  const {authToken} = userContext;
+  const { authToken } = userContext;
   const [editNote, setEditNote] = useState({
     title: "",
     editDescription: "",
@@ -25,7 +25,10 @@ const Notes = (props) => {
     refEdit = useRef(null);
 
   const DeleteNote = (currNote) => {
-    setDelNote(currNote);
+    setDelNote({
+      title: currNote.title,
+      _id: currNote._id,
+    });
     refDel.current.click();
   };
   const UpdateNote = (currNote) => {
@@ -40,7 +43,7 @@ const Notes = (props) => {
     refEdit.current.click();
   };
   const updateInfo = (e) => {
-    setEditNote({...editNote, [e.target.name]: e.target.value});
+    setEditNote({ ...editNote, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
@@ -72,7 +75,8 @@ const Notes = (props) => {
               </h5>
             </div>
             <div className="modal-body">
-              Are you sure the task <strong>{delNote.title}</strong> is completed?
+              Are you sure the task <strong>{delNote.title}</strong> is
+              completed?
             </div>
             <div className="modal-footer">
               <button
@@ -87,7 +91,10 @@ const Notes = (props) => {
                 className="btn btn-primary"
                 onClick={() => {
                   deleteNote(delNote._id);
-                  props.showAlert(`Task ${<strong>delNote.title</strong>} done Successfully`, "warning");
+                  props.showAlert(
+                    `Task ${delNote.title} completed Successfully`,
+                    "warning"
+                  );
                 }}
                 data-bs-dismiss="modal"
               >
@@ -160,9 +167,10 @@ const Notes = (props) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
-                onClick={()=>{
-                  document.querySelector('#editDescription').value=editNote.description;
-                  document.querySelector('#editTag').value=editNote.tag;
+                onClick={() => {
+                  document.querySelector("#editDescription").value =
+                    editNote.description;
+                  document.querySelector("#editTag").value = editNote.tag;
                 }}
               >
                 Cancel
@@ -171,11 +179,19 @@ const Notes = (props) => {
                 type="button"
                 className="btn btn-primary"
                 onClick={() => {
-                  updateNote(editNote._id, editNote.editDescription, editNote.editTag);
-                  props.showAlert(`${editNote.title} Updated Successfully`, "info");
-                  document.querySelector('#editDescription').value=document.querySelector('#editTag').value="";
+                  updateNote(
+                    editNote._id,
+                    editNote.editDescription,
+                    editNote.editTag
+                  );
+                  props.showAlert(
+                    `${editNote.title} Updated Successfully`,
+                    "info"
+                  );
+                  document.querySelector("#editDescription").value =
+                    document.querySelector("#editTag").value = "";
                 }}
-                disabled = {editNote.editDescription.length < 10}
+                disabled={editNote.editDescription.length < 10}
                 data-bs-dismiss="modal"
               >
                 Update Task
@@ -185,7 +201,7 @@ const Notes = (props) => {
         </div>
       </div>
 
-      {authToken != null && notes && notes.length>0 && 
+      {authToken != null && notes && notes.length > 0 && (
         <div className="container mt-3">
           <h2>Your Tasks</h2>
           <div className="row">
@@ -201,7 +217,7 @@ const Notes = (props) => {
             })}
           </div>
         </div>
-      }
+      )}
     </>
   );
 };

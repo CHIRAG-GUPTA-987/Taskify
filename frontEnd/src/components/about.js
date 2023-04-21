@@ -7,7 +7,7 @@ const About = () => {
     <div className="container">
       <div className="card">
         <div className="card-header">
-          <strong>i-Notebook</strong> - Your Note taking platform
+          <strong>Taskify</strong> - Organize and track your task
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
@@ -29,62 +29,11 @@ const About = () => {
         </ul>
       </div>
       <div className="starters d-flex flex-column align-items-center my-5">
-        <div className="appWindow my-2">
-          <h4>Home Page</h4>
-          <img
-            style={styleImages}
-            src={require("../snapshots/HomePageWithoutLogin.png")}
-            alt={"The main home page"}
-          />
-        </div>
-        <div className="appWindow my-2">
-          <h4>Login Page</h4>
-          <img
-            style={styleImages}
-            src={require("../snapshots/LoginPage.png")}
-            alt={"LoginPage"}
-          />
-        </div>
-        <div className="appWindow my-2">
-          <h4>Register Page</h4>
-          <img
-            style={styleImages}
-            src={require("../snapshots/RegisterPage.png")}
-            alt={"Editing Note"}
-          />
-        </div>
-        <div className="appWindow my-2">
-          <h4>Home Page When Logged In and created a note</h4>
-          <img
-            style={styleImages}
-            src={require("../snapshots/HomePageWhenUserLoggedIn.png")}
-            alt={"Editing Note"}
-          />
-        </div>
-        <div className="appWindow my-2">
-          <h4>Editing a note</h4>
-          <img
-            style={styleImages}
-            src={require("../snapshots/EditNote.png")}
-            alt={"Editing Note"}
-          />
-        </div>
-        <div className="appWindow my-2">
-          <h4>Deleting a note</h4>
-          <img
-            style={styleImages}
-            src={require("../snapshots/DeleteNote.png")}
-            alt={"Editing Note"}
-          />
-        </div>
-        <div className="appWindow my-2">
-          <h4>Accessing user information</h4>
-          <img
-            style={styleImages}
-            src={require("../snapshots/UserDetails.png")}
-            alt={"Editing Note"}
-          />
-        </div>
+        Stay organized and on top of your tasks with our task application,
+        designed to simplify your life and increase your productivity.
+        <br />
+        Manage your tasks with ease using our intuitive task application,
+        featuring customizable lists, reminders, and collaboration tools.
       </div>
       <div className="accordion" id="accordionExample">
         <h4 className="head my-2">Frequently Asked Questions</h4>
@@ -108,7 +57,8 @@ const About = () => {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body">
-              First Register / Login. You must provide a note title of minimum 5 characters and note description of minimum 10 characters.
+              First Register / Login. You must provide a note title of minimum 5
+              characters and note description of minimum 10 characters.
             </div>
           </div>
         </div>
@@ -132,7 +82,8 @@ const About = () => {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body">
-              You must provide a username of atleast 5 characters and a strong password of about 8 characters or more.
+              You must provide a username of atleast 5 characters and a strong
+              password of about 8 characters or more.
             </div>
           </div>
         </div>
@@ -156,7 +107,8 @@ const About = () => {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body">
-              You are trying to register with an already registered mail id. Please try to Login.
+              You are trying to register with an already registered mail id.
+              Please try to Login.
             </div>
           </div>
         </div>
