@@ -3,7 +3,7 @@ import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
   const [notes, setNotes] = useState(null);
-  const port = "http://localhost:4000";
+  const port = "https://taskback-jyx5.onrender.com";
   const authToken = localStorage.getItem("token");
   //fetching all notes
   const fetchNotes = async () => {
@@ -43,7 +43,7 @@ const NoteState = (props) => {
 
   //deleting notes
   const deleteNote = async (noteID) => {
-    const url = `${port}/notes/taskCompleted/${noteID}`;
+    const url = `${port}/notes/taskComplete/${noteID}`;
     await fetch(url, {
       method: "DELETE",
       headers: {

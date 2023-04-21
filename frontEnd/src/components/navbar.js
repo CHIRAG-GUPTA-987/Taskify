@@ -18,8 +18,8 @@ const Navbar = (props) => {
   const [userName, setUserName] = useState("");
   useEffect(() => {
     const getUserDetails = async () => {
-      if(authToken!=null){
-        const port = "http://localhost:4000";
+      if (authToken != null) {
+        const port = "https://taskback-jyx5.onrender.com";
         const url = `${port}/auth/getUserDetails`;
         const response = await fetch(url, {
           method: "POST",
@@ -37,8 +37,8 @@ const Navbar = (props) => {
     getUserDetails();
   }, [authToken]);
   const userDetails = () => {
-      ref.current.click();
-  }
+    ref.current.click();
+  };
   return (
     <>
       <button
@@ -64,12 +64,12 @@ const Navbar = (props) => {
               </h5>
             </div>
             <div className="modal-body">
-                <div className="userName">
-                    <strong>Username</strong>: <em>{userName}</em>
-                </div>
-                <div className="email">
-                    <strong>Contact</strong>: <em>{email}</em>
-                </div>
+              <div className="userName">
+                <strong>Username</strong>: <em>{userName}</em>
+              </div>
+              <div className="email">
+                <strong>Contact</strong>: <em>{email}</em>
+              </div>
             </div>
             <div className="modal-footer">
               <button
