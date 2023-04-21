@@ -1,8 +1,5 @@
 import React from "react";
 const About = () => {
-  const styleImages = {
-    width: "100%",
-  };
   return (
     <div className="container">
       <div className="card">
