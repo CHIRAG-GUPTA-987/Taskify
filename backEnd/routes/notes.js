@@ -5,11 +5,11 @@ const notesControl = require("../controllers/notes");
 const { body } = require("express-validator");
 
 //GET: Fetching all notes of a user. Login Required
-router.route("/fetchNotes").get(fetchUser, notesControl.fetchNotes);
+router.route("/fetchTasks").get(fetchUser, notesControl.fetchNotes);
 
 //POST: Adding new notes of a user. Login Required
 router
-  .route("/addNotes")
+  .route("/addTask")
   .post(
     fetchUser,
     [
@@ -21,7 +21,7 @@ router
 
 //PUT: Updating a note. Login Required
 router
-  .route("/updateNote/:id")
+  .route("/updateTask/:id")
   .put(
     fetchUser,
     body("description").isLength({ min: 10 }),
@@ -29,6 +29,6 @@ router
   );
 
 //DELETE: Deleting a note. Login Required
-router.route("/deleteNote/:id").delete(fetchUser, notesControl.deleteNote);
+router.route("/taskComplete/:id").delete(fetchUser, notesControl.deleteNote);
 
 module.exports = router;
