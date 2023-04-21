@@ -72,7 +72,7 @@ const Notes = (props) => {
               </h5>
             </div>
             <div className="modal-body">
-              Are you sure you want to delete <strong>{delNote.title}</strong>?
+              Are you sure the task <strong>{delNote.title}</strong> is completed?
             </div>
             <div className="modal-footer">
               <button
@@ -87,11 +87,11 @@ const Notes = (props) => {
                 className="btn btn-primary"
                 onClick={() => {
                   deleteNote(delNote._id);
-                  props.showAlert(`${delNote.title} Deleted Successfully`, "warning");
+                  props.showAlert(`Task ${<strong>delNote.title</strong>} done Successfully`, "warning");
                 }}
                 data-bs-dismiss="modal"
               >
-                Delete
+                Complete
               </button>
             </div>
           </div>
@@ -178,7 +178,7 @@ const Notes = (props) => {
                 disabled = {editNote.editDescription.length < 10}
                 data-bs-dismiss="modal"
               >
-                Update Note
+                Update Task
               </button>
             </div>
           </div>
@@ -187,7 +187,7 @@ const Notes = (props) => {
 
       {authToken != null && notes && notes.length>0 && 
         <div className="container mt-3">
-          <h2>Your Notes</h2>
+          <h2>Your Tasks</h2>
           <div className="row">
             {notes.map((note) => {
               return (

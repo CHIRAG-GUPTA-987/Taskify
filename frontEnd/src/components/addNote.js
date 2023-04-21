@@ -19,11 +19,11 @@ const AddNote = (props) => {
         setFlag(false);
         document.querySelector('#title').value=document.querySelector('#description').value=document.querySelector('#tag').value=document.querySelector('#invalidCheck').value="";
         document.querySelector('#invalidCheck').checked=false;
-        props.showAlert('Note added successfully', 'success');
+        props.showAlert('Task added successfully', 'success');
         addNote(newNote);
     }
     else{
-      props.showAlert('Error encountered while adding note', 'danger')
+      props.showAlert('Error encountered while adding task', 'danger')
     }
   }
   const updateInfo = (e) =>{
@@ -34,7 +34,7 @@ const AddNote = (props) => {
   }
   return (
     <div className="container">
-      <h2 className="my-3">Add Your Notes</h2>
+      <h2 className="my-3">Add Your Task</h2>
       <div className="form container my-3 d-flex justify-content-center align-items-center row">
         <form className="needs-validation card p-4 col-sm-12 col-md-10 col-lg-6 shadow">
           <div className="form-row">

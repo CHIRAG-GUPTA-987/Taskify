@@ -8,7 +8,7 @@ const NoteState = (props) => {
   //fetching all notes
   const fetchNotes = async () => {
     if (authToken) {
-      const url = `${port}/notes/fetchNotes`;
+      const url = `${port}/notes/fetchTasks`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -26,7 +26,7 @@ const NoteState = (props) => {
   const addNote = async (note) => {
     if (authToken) {
       const { title, description, tag } = note;
-      const url = `${port}/notes/addNotes`;
+      const url = `${port}/notes/addTask`;
       // eslint-disable-next-line
       const response = await fetch(url, {
         method: "POST",
@@ -43,7 +43,7 @@ const NoteState = (props) => {
 
   //deleting notes
   const deleteNote = async (noteID) => {
-    const url = `${port}/notes/deleteNote/${noteID}`;
+    const url = `${port}/notes/taskCompleted/${noteID}`;
     await fetch(url, {
       method: "DELETE",
       headers: {
@@ -55,7 +55,7 @@ const NoteState = (props) => {
 
   //updating notes
   const updateNote = async (noteID, description, tag) => {
-    const url = `${port}/notes/updateNote/${noteID}`;
+    const url = `${port}/notes/updateTask/${noteID}`;
     // eslint-disable-next-line
     const response = await fetch(url, {
       method: "PUT",

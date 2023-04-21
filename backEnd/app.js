@@ -1,28 +1,29 @@
-const express = require('express');
-var cors = require('cors');
+const express = require("express");
+var cors = require("cors");
 const app = express();
-const authRoute = require('./routes/auth');
-const notesRoute = require('./routes/notes');
+const authRoute = require("./routes/auth");
+const notesRoute = require("./routes/notes");
+require("dotenv").config();
 
 //Connecting to Mongo Database
-const connectToMongo = require('./MongoDB');
+const connectToMongo = require("./MongoDB");
 connectToMongo();
 
 //Using cors
 app.use(cors());
 
 //Converting request body to json
-app.use(express.json());         
+app.use(express.json());
 
 //Converting url body to json
 // app.use(express.urlencoded({extended: true}));
 
 //User routes
-app.use('/auth', authRoute);
+app.use("/auth", authRoute);
 
 //Notes routes
-app.use('/notes', notesRoute);
+app.use("/notes", notesRoute);
 
-app.listen(4000, ()=>{
-    console.log('Serving on port 4000');
-})
+app.listen(4000, () => {
+  console.log("Serving on port 4000");
+});
