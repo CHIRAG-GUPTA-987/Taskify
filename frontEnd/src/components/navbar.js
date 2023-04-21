@@ -25,7 +25,6 @@ const Navbar = (props) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            //   "Content-Type": "application/x-www-form-urlencoded",
             "auth-token": authToken,
           },
         });
@@ -87,7 +86,7 @@ const Navbar = (props) => {
       <nav className="navbar navbar-expand-lg bg-light sticky-top">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            i-Notebook
+            Taskify
           </Link>
           <button
             className="navbar-toggler"
