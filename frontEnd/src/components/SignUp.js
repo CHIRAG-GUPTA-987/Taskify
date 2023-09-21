@@ -32,13 +32,13 @@ const SignUp = (props) => {
   };
   const handleRegister = async (e) => {
     e.preventDefault();
-    const port = "https://taskback-jyx5.onrender.com";
+    const port = process.env.REACT_APP_PORT;
     const url = `${port}/auth/register`;
+    document.querySelector(".register-button").disabled = true;
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        //   "Content-Type": "application/x-www-form-urlencoded",
       },
       body: JSON.stringify(registerCredentials),
     });
@@ -127,7 +127,7 @@ const SignUp = (props) => {
             registerCredentials.password !== confirmPassword.confirmPassword
           }
           type="submit"
-          className="btn btn-primary btn-block mt-2"
+          className="btn btn-primary btn-block mt-2 register-button"
         >
           Register
         </button>

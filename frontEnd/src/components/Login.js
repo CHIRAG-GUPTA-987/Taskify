@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/users/userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faUnlock, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Login = (props) => {
   let navigateTo = useNavigate();
@@ -21,15 +23,19 @@ const Login = (props) => {
     });
   };
   const handleLogin = async (e) => {
+    const loginButton = document.querySelector(".login-button");
+    const loginText = document.querySelector("#loginText");
     try {
       e.preventDefault();
-      const port = "https://taskback-jyx5.onrender.com";
+      loginText.innerText = "Verifying...";
+      loginButton.style.backgroundColor = "#166726";
+      const port = process.env.REACT_APP_PORT;
       const url = `${port}/auth/login`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          //   "Content-Type": "application/x-www-form-urlencoded",
+          // "Content-Type": "application/x-www-form-urlencoded",
         },
         body: JSON.stringify(loginCredentials),
       });
@@ -39,57 +45,67 @@ const Login = (props) => {
         localStorage.setItem("token", loginToken.authToken);
         setAuthToken(localStorage.getItem("token"));
         navigateTo("/");
-        props.showAlert("Logged In successfully", "success");
+        props.showAlert("You're in! Access granted.", "success");
       } else {
-        props.showAlert("Username or Password may be incorrect", "warning");
+        loginText.innerText = "Access my account";
+        setTimeout(() => {
+          loginButton.style.backgroundColor = "#36953f";
+        }, 500);
+        props.showAlert("Oops! The username or password you entered might be incorrect", "warning");
       }
     } catch (e) {
-      props.showAlert("Login Failed", "danger");
+      loginText.innerText = "Access my account";
+      setTimeout(() => {
+        loginButton.style.backgroundColor = "#36953f";
+      }, 500);
+      props.showAlert("Something went wrong. Please try again later.", "danger");
     }
   };
   return (
     <div className="container d-flex flex-column align-items-center">
       <form
-        className="card shadow p-4 col-lg-6 col-md-8 col-sm-12 mt-2"
+        className="card shadow p-4 col-lg-6 col-md-8 col-sm-12 mt-2 app-form"
         onSubmit={handleLogin}
       >
         <div className="mb-1">
-          <h2>Login to use Taskify</h2>
+          <h2>Get Started by Logging In</h2>
         </div>
-        <div className="mb-3">
-          <label htmlFor="loginEmail" className="form-label">
-            Email address
-          </label>
+        <div className="mb-3 d-flex align-items-center input-item-taskify">
+          <FontAwesomeIcon icon={faUser} className="input-icon-taskify" />
           <input
             type="email"
-            className="form-control"
+            // className="form-control"
             id="loginEmail"
-            placeholder="username@gmail.com"
+            placeholder="Username"
             name="email"
             onChange={handleCredChange}
             required
           />
         </div>
-        <div className="mb-1">
-          <label htmlFor="loginPassword" className="form-label">
-            Password
-          </label>
+        <div className="mb-1 input-item-taskify">
+          <FontAwesomeIcon icon={faLock} className="input-icon-taskify" />
           <input
             type="password"
-            className="form-control"
+            // className="form-control"
             id="loginPassword"
-            placeholder="My strong password"
+            placeholder="Password"
             name="password"
             onChange={handleCredChange}
             required
           />
         </div>
-        <div className="form-text">
-          We'll never share your credentials with anyone else.
+        <div className="form-text login-text">
+          Your credentials are secure with us.
         </div>
-        <button type="submit" className="btn btn-primary btn-block mt-2">
-          LogIn
-        </button>
+        <div id="loginButtonDiv">
+          <button
+            type="submit"
+            className="btn btn-block mt-2 login-button"
+          >
+            <FontAwesomeIcon icon={faUnlock} className="input-icon-taskify" />
+            <span id="loginText">Access my account</span>
+          </button>
+        </div>
       </form>
     </div>
   );

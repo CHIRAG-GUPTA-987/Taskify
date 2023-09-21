@@ -19,7 +19,7 @@ const Navbar = (props) => {
   useEffect(() => {
     const getUserDetails = async () => {
       if (authToken != null) {
-        const port = "https://taskback-jyx5.onrender.com";
+        const port = process.env.REACT_APP_PORT;
         const url = `${port}/auth/getUserDetails`;
         const response = await fetch(url, {
           method: "POST",
@@ -103,9 +103,8 @@ const Navbar = (props) => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${
-                    location.pathname === "/" ? "active" : ""
-                  }`}
+                  className={`nav-link ${location.pathname === "/" ? "active" : ""
+                    }`}
                   aria-current="page"
                   to="/"
                 >
@@ -114,9 +113,8 @@ const Navbar = (props) => {
               </li>
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${
-                    location.pathname === "/about" ? "active" : ""
-                  }`}
+                  className={`nav-link ${location.pathname === "/about" ? "active" : ""
+                    }`}
                   to="/about"
                 >
                   About

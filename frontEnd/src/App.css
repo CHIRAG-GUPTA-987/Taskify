@@ -36,3 +36,95 @@
     transform: rotate(360deg);
   }
 }
+
+.login-button {
+  position: relative;
+  width: 40%;
+  border: none;
+  border-radius: 0.4rem;
+  background-color: #36953f;
+  color: white;
+  transition: 500ms;
+}
+
+.login-button:hover {
+  color: white;
+  background-color: #166726;
+}
+
+.login-button:focus {
+  color: white;
+  outline: none;
+}
+
+.app-form {
+  width: 40%;
+}
+
+@media only screen and (max-width: 1200px) {
+  .app-form {
+    width: 50%;
+  }
+  .login-button {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .app-form {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .app-form {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .login-button {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 370px) {
+  .login-button {
+    width: 80%;
+  }
+}
+
+.input-item-taskify {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.200);
+  border-end-end-radius: 80px 10px;
+  border-end-start-radius: 50px 1px;
+}
+
+.input-icon-taskify {
+  width: 5%;
+  text-align: start;
+}
+
+input {
+  border: none;
+  width: 95%;
+}
+
+input:focus {
+  outline: none;
+}
+
+.login-text {
+  color: rgb(155, 148, 148);
+  text-shadow: rgb(0, 0, 0) 1px 0 0.5px;
+}
+
+#loginText {
+  margin-left: 0.22rem;
+}
+
+#loginButtonDiv {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
