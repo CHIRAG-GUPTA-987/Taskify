@@ -1,6 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/users/userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock, faUnlock, faUser } from "@fortawesome/free-solid-svg-icons";
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 const SignUp = (props) => {
   let navigateTo = useNavigate();
@@ -18,6 +21,7 @@ const SignUp = (props) => {
   const [confirmPassword, setConfirmPassword] = useState({
     confirmPassword: "",
   });
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const handleCredChange = (e) => {
     setRegisterCredentials({
       ...registerCredentials,
@@ -29,12 +33,57 @@ const SignUp = (props) => {
       ...confirmPassword,
       [e.target.name]: e.target.value,
     });
+    const strength = calculatePasswordStrength(e.target.value);
+    console.log(strength);
+    setPasswordStrength(strength);
   };
+  const calculatePasswordStrength = (password) => {
+    // 1 - Very Weak, 2 - Weak, 3 - Moderate, 4 - Strong, 5 - Very Strong
+    const lengthScore1 = password.length >= 8 ? 1 : 0;
+    const lengthScore2 = password.length >= 12 ? 1 : 0;
+    const complexityScore1 = /[A-Z]+/.test(password);
+    const complexityScore2 = /[a-z]+/.test(password);
+    const complexityScore3 = /[0-9]+/.test(password);
+    const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/;
+    const containsSpecialChar = specialCharRegex.test(password);
+    const specialCharScore = containsSpecialChar ? 1 : 0;
+    const complexScore = complexityScore1 + complexityScore2 + complexityScore3 + specialCharScore;
+    return lengthScore1 == 0 ? 0 : lengthScore2 == 0 ? complexScore : 1 + complexScore;
+  };
+
+  const loginFailure = () => {
+    const loginButton = document.querySelector(".login-button");
+    const loginText = document.querySelector("#loginText");
+    loginButton.disabled = false;
+    loginText.innerText = "Access";
+    loginButton.style.backgroundColor = "#36953f";
+  }
+
   const handleRegister = async (e) => {
     e.preventDefault();
+    const loginButton = document.querySelector(".login-button");
+    const loginText = document.querySelector("#loginText");
+    loginText.innerText = "Accessing...";
+    loginButton.style.backgroundColor = "#166726";
+    loginButton.disabled = true;
+    if (registerCredentials.userName.length < 5) {
+      loginFailure();
+      props.showAlert(`Minimum length of Username: 5 \n Captured: ${registerCredentials.userName.length}`, "info");
+      return;
+    }
+    if (registerCredentials.password != confirmPassword.confirmPassword) {
+      loginFailure();
+      props.showAlert("Passwords don't match", "info");
+      return;
+    }
+    if (passwordStrength < 4) {
+      loginFailure();
+      console.log(passwordStrength);
+      props.showAlert("Please choose a stronger password", "warning");
+      return;
+    }
     const port = process.env.REACT_APP_PORT;
     const url = `${port}/auth/register`;
-    document.querySelector(".register-button").disabled = true;
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -50,87 +99,83 @@ const SignUp = (props) => {
       navigateTo("/");
       props.showAlert("Registered and Logged In successfully", "success");
     } else {
+      loginFailure();
       props.showAlert(
         "Error encountered while registering new user",
-        "warning"
+        "danger"
       );
     }
   };
   return (
     <div className="container d-flex flex-column align-items-center">
       <form
-        className="card shadow p-4 col-lg-6 col-md-8 col-sm-12 mt-2"
+        className="card shadow p-4 col-lg-6 col-md-8 col-sm-12 mt-2 app-form"
         onSubmit={handleRegister}
       >
         <div className="mb-1">
-          <h2>Create an account to use Taskify</h2>
+          <h2>Unlock productivity with Taskify</h2>
         </div>
-        <div className="mb-3">
-          <label htmlFor="signupUserName" className="form-label">
-            UserName
-          </label>
+        <div className="mb-3 input-item-taskify">
+          <FontAwesomeIcon icon={faUser} className="input-icon-taskify" />
           <input
             type="text"
-            className="form-control"
+            // className="form-control"
             name="userName"
             id="signupUserName"
+            placeholder="Username"
             onChange={handleCredChange}
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="signupEmail" className="form-label">
-            Email address
-          </label>
+        <div className="mb-3 input-item-taskify">
+          <FontAwesomeIcon icon={faEnvelope} className="input-icon-taskify" />
           <input
             type="email"
-            className="form-control"
+            // className="form-control"
             onChange={handleCredChange}
             name="email"
+            placeholder="Email"
             id="signupEmail"
             required
           />
         </div>
-        <div className="mb-1">
-          <label htmlFor="signupPassword" className="form-label">
-            Password
-          </label>
+        <div className="input-item-taskify">
+          <FontAwesomeIcon icon={faLock} className="input-icon-taskify" />
           <input
             type="password"
-            className="form-control"
+            // className="form-control"
             name="password"
             onChange={handleCredChange}
+            placeholder="Password"
             id="signupPassword"
             required
           />
         </div>
-        <div className="mb-1">
-          <label htmlFor="signupConfirmPassword" className="form-label">
-            Confirm Password
-          </label>
+        <PasswordStrengthBar password={registerCredentials.password} />
+        <div className="mb-1 input-item-taskify">
+          <FontAwesomeIcon icon={faLock} className="input-icon-taskify" />
           <input
             type="password"
-            className="form-control"
+            // className="form-control"
             name="confirmPassword"
             id="signupConfirmPassword"
+            placeholder="Confirm Password"
             onChange={handleConfirmPassword}
             required
           />
         </div>
-        <div className="form-text">
-          We'll never share your credentials with anyone else.
+        <div className="form-text login-text">
+          Your credentials are secure with us.
         </div>
-        <button
-          disabled={
-            registerCredentials.userName.length < 5 ||
-            registerCredentials.password.length < 8 ||
-            registerCredentials.password !== confirmPassword.confirmPassword
-          }
-          type="submit"
-          className="btn btn-primary btn-block mt-2 register-button"
-        >
-          Register
-        </button>
+        <div id="loginButtonDiv">
+          <button
+            type="submit"
+            className="btn btn-block mt-2 login-button"
+          >
+            <FontAwesomeIcon icon={faUnlock} className="input-icon-taskify" />
+            <span id="loginText">Access</span>
+          </button>
+        </div>
       </form>
     </div>
   );

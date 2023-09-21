@@ -124,14 +124,14 @@ const Navbar = (props) => {
             {authToken === null && (
               <div>
                 <Link
-                  className="btn btn-primary mx-1"
+                  className="btn mx-1 nav-button login-nav-button"
                   to="/Login"
                   role="button"
                 >
                   Login
                 </Link>
                 <Link
-                  className="btn btn-primary mx-1"
+                  className="btn mx-1 nav-button register-nav-button"
                   to="/SignUp"
                   role="button"
                 >
@@ -146,7 +146,7 @@ const Navbar = (props) => {
                   onClick={userDetails}
                 ></i>
                 <div
-                  className="btn btn-primary mx-1"
+                  className="btn mx-1 nav-button logout-nav-button"
                   onClick={LogOut}
                   role="button"
                 >

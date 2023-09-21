@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/users/userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faUnlock, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 
 const Login = (props) => {
   let navigateTo = useNavigate();
@@ -29,6 +29,7 @@ const Login = (props) => {
       e.preventDefault();
       loginText.innerText = "Verifying...";
       loginButton.style.backgroundColor = "#166726";
+      loginButton.disabled = true;
       const port = process.env.REACT_APP_PORT;
       const url = `${port}/auth/login`;
       const response = await fetch(url, {
@@ -49,13 +50,15 @@ const Login = (props) => {
       } else {
         loginText.innerText = "Access my account";
         setTimeout(() => {
+          loginButton.disabled = false;
           loginButton.style.backgroundColor = "#36953f";
         }, 500);
-        props.showAlert("Oops! The username or password you entered might be incorrect", "warning");
+        props.showAlert("The username or password might be incorrect", "warning");
       }
     } catch (e) {
       loginText.innerText = "Access my account";
       setTimeout(() => {
+        loginButton.disabled = false;
         loginButton.style.backgroundColor = "#36953f";
       }, 500);
       props.showAlert("Something went wrong. Please try again later.", "danger");
@@ -71,12 +74,12 @@ const Login = (props) => {
           <h2>Get Started by Logging In</h2>
         </div>
         <div className="mb-3 d-flex align-items-center input-item-taskify">
-          <FontAwesomeIcon icon={faUser} className="input-icon-taskify" />
+          <FontAwesomeIcon icon={faEnvelope} className="input-icon-taskify" />
           <input
             type="email"
             // className="form-control"
             id="loginEmail"
-            placeholder="Username"
+            placeholder="Email"
             name="email"
             onChange={handleCredChange}
             required

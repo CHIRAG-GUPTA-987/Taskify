@@ -96,18 +96,17 @@
 
 .input-item-taskify {
   border-bottom: 2px solid rgba(0, 0, 0, 0.200);
-  border-end-end-radius: 80px 10px;
-  border-end-start-radius: 50px 1px;
 }
 
 .input-icon-taskify {
   width: 5%;
   text-align: start;
+  margin-right: 2%;
 }
 
 input {
   border: none;
-  width: 95%;
+  width: 93%;
 }
 
 input:focus {
@@ -127,4 +126,16 @@ input:focus {
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
+}
+
+.nav-button {
+  border: none;
+  color: #427aa1;
+  transition: 500ms;
+}
+.nav-button:hover {
+  border: none;
+  box-shadow: 0px 0px 5px rgb(84, 83, 83);
+  background-color: #ebf2fa;
+  color: #1466a1;
 }
