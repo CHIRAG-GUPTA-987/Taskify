@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../context/users/userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = (props) => {
   const ref = useRef();
@@ -141,10 +143,7 @@ const Navbar = (props) => {
             )}
             {authToken != null && (
               <div className="d-flex align-items-center">
-                <i
-                  className="fa-solid fa-user-tie mx-2"
-                  onClick={userDetails}
-                ></i>
+                <FontAwesomeIcon icon={faUserTie} className="nav-button p-2 user-details" onClick={userDetails} />
                 <div
                   className="btn mx-1 nav-button logout-nav-button"
                   onClick={LogOut}

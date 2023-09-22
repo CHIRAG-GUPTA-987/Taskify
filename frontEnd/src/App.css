@@ -139,3 +139,8 @@ input:focus {
   background-color: #ebf2fa;
   color: #1466a1;
 }
+
+.user-details {
+  border-radius: 50%;
+  cursor: pointer;
+}
